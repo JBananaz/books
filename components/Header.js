@@ -3,7 +3,7 @@ import {View,StyleSheet} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 
 import {prefix} from '../utils/constant';
-import { color } from 'react-native-reanimated';
+
 
 const Header = (props) => {
     const { container,closeIcon,cartIcon} = styles;
