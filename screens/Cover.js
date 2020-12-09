@@ -1,10 +1,11 @@
 import React from 'react';
 import {View,StyleSheet,Image} from "react-native";
 
-const Cover = ({image}) => {
-    const { container,imageStyle } = styles;
+const Cover = ({image, small}) => {
+    const { container,imageStyle , smallStyle} = styles;
+    const getContainerStyle =()=> small ? smallStyle : container;
     return(
-        <View style = {container}>
+        <View style = {getContainerStyle()}>
             <Image style={imageStyle} source={image} />
         </View>
     )
@@ -21,6 +22,12 @@ const styles = StyleSheet.create({
         width:"100%",
         height:"100%",
         borderRadius:10
+    },
+    smallStyle:{
+        width:70,
+        height:110,
+        marginTop:20, 
+        marginHorizontal:5
     }
 })
 
