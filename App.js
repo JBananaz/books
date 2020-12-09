@@ -1,59 +1,52 @@
 
-import React,{useState} from 'react';
-import { View, Text, StyleSheet, TextInput, Image , ScrollView , FlatList, TouchableHighlight , TouchableOpacity} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import WelcomeScreen from './screens/WelcomeScreen'
-import LoginScreen from './screens/LoginScreen'
-import HomeScreen from './screens/HomeScreen'
-import ProfileScreen from './screens/ProfileScreen'
-
-const {Navigator,Screen} = createStackNavigator();
-
-const Root= () =>(
-        <Navigator> 
-          <Screen name="Home" component={HomeScreen} />
-          <Screen name="Profile" component={ProfileScreen}/>
-        </Navigator>
-)
+import React,{useEffect, useState} from 'react';
+import { View, Text, StyleSheet,Platform, TextInput, Image , ScrollView , FlatList, TouchableHighlight , TouchableOpacity} from 'react-native';
+import * as Font from 'expo-font';
+import BookScreen from "./screens/BookScreen";
 
 const App = () =>{
- 
-  return(
-      <NavigationContainer>
-        <Navigator screenOptions={options =>{
-            return {
-              //headerLeft:null,
-              title: options.route.name,
-              headerStyle:{
-                borderColor:"orange",
-                borderWidth:3,
-                backgroundColor:"orange"
-              },
-              headerTintColor:"white",
-              headerTitleStyle:{
-                fontSize:25,
-                fontWeight:"bold"
-              }
-            }
-            }}>
-          <Screen name="Welcome" component={WelcomeScreen}/>
-          <Screen name="Login" component={LoginScreen} />
-          <Screen name="Root" component={Root} />
-        </Navigator>
+  const[loading,setLoading] = useState(true);
+  
+  const loadFont = async() => {
+    try{
+      await Font.loadAsync({
+        'Gilroy-Bold': require('./assets/fonts/Gilroy-Bold.ttf'),
+        'GT-Sectra-Fine-Regular': require('./assets/fonts/GT-Sectra-Fine-Regular.ttf'),
+        'Montserrat-Black': require('./assets/fonts/Montserrat-Black.ttf'),
+        'Montserrat-Medium': require('./assets/fonts/Montserrat-Medium.ttf'),
+        'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf')
+      });
+      setLoading(false);
+    }catch(e){
+      console.error("erreur",e);
+      
+    }
+  };
+  useEffect(()=> {
+        loadFont();
         
-      </NavigationContainer>
+      },[])
 
+  if (loading){
+    return(
+      <View style ={styles.container}>
+        <Text> Loading...</Text>
+      </View>
+    )
+  }
+  return( 
+      <BookScreen />
   );
 };
 
-const styles = StyleSheet.create({
+const styles= StyleSheet.create({
   container:{
       flex:1,
+      backgroundColor:"lightgrey",
+      flexDirection:"column",
       justifyContent:"center",
       alignItems:"center",
-      backgroundColor: "lightgrey"
+      marginTop:40
   }
-})
-
+});
 export default App;
